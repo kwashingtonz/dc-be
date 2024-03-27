@@ -35,11 +35,11 @@ try {
     }
 
     if(reqDto.getSortType() === "low"){
-      products.sort((a,b) => b.price - a.price)
+      products.sort((a,b) => b.price - a.price);
     }
 
     if(reqDto.getSortType() === "high"){
-      products.sort((a,b) => a.price - b.price)
+      products.sort((a,b) => a.price - b.price);
     }
 
     res.send(products);

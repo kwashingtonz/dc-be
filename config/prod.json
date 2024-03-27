@@ -1,0 +1,23 @@
+{
+    "server": {
+      "port": "4000",
+      "ip": "127.0.0.1"
+    },
+    "db": {
+      "host": "ws-db.ctymyaykonxt.us-east-1.rds.amazonaws.com",
+      "userName": "admin",
+      "password": "kaliya234",
+      "db": "dc_db",
+      "port": "3306",
+      "url":"nourl"
+    },
+    "jwtSecret": "4658sfds@6798gs",
+    "apiKey":"HC0#5ylVKHSdjn#GhRK@a",
+    "redis": {
+      "host": "clustercfg.redis.a2kngi.memorydb.us-east-1.amazonaws.com",
+      "port": "6379"
+    },
+    "client": {
+      "host": "https://weatherstat.live"
+    }
+}

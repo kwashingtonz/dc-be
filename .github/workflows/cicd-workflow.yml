@@ -1,0 +1,29 @@
+# name: CICD
+
+# on:
+#   push:
+#     branches: [master]
+  
+# jobs:
+#   build:
+#     runs-on: [ubuntu-latest]
+#     steps:
+#       - name: Checkout source
+#         uses: actions/checkout@v3
+#       - name: Login to docker hub
+#         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+#       - name: Build docker image
+#         run: docker build -t kalinduwashington/dc-be .
+#       - name: Publish docker image
+#         run: docker push kalinduwashington/dc-be:latest
+    
+#   deploy:
+#     needs: build
+#     runs-on: self-hosted
+#     steps:
+#       - name: Pull image from docker hub
+#         run: docker pull kalinduwashington/dc-be:latest
+#       - name: Delete old container
+#         run: docker rm -f dc-be.container
+#       - name: Run docker container
+#         run: docker run -d -p 4000:4000 --name dc-be.container kalinduwashington/dc-be:latest

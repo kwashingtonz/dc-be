@@ -48,7 +48,7 @@ const router = express_1.default.Router();
  *            type:
  *              type: number
  *              description: type
- *            sortType
+ *            sortType:
  *              type: string
  *              description: sort type
  *          example:

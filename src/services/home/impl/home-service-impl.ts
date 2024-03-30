@@ -1,89 +1,94 @@
-// import { CommonResponse } from "../../../common/dto/common-response";
-// import { AppDataSource } from "../../../configuration/database-configuration";
-// import { SetupDaoImpl } from "../../../dao/impl/home-dao-impl";
-// import SetupDao from "../../../dao/login-dao";
-// import { CountryEntity } from "../../../entity/product-entity";
-// import { DistrictEntity } from "../../../entity/cart-item-entity";
-// import { WeatherStationEntity } from "../../../entity/gender-category-entity";
-// import { SetupService } from "../login-service";
+import { CommonResponse } from "../../../common/dto/common-response";
+import { AppDataSource } from "../../../configuration/database-configuration";
+import HomeDao from "../../../dao/home-dao";
+import { HomeDaoImpl } from "../../../dao/impl/home-dao-impl";
+import { ProductDaoImpl } from "../../../dao/impl/product-dao-impl";
+import ProductDao from "../../../dao/product-dao";
+import { GenderDto } from "../../../dto/home/gender-dto";
+import { HomeResDto } from "../../../dto/home/home-res-dto";
+import { TypeDto } from "../../../dto/home/type-dto";
+import { ProductDto } from "../../../dto/product/product-dto";
+import { GenderCategoryEntity } from "../../../entity/gender-category-entity";
+import { HeroImageEntity } from "../../../entity/hero-image-entity";
+import { ProductEntity } from "../../../entity/product-entity";
+import { TypeEntity } from "../../../entity/type-entity";
 
 import { HomeService } from "../home-service";
 
 export class HomeServiceImpl implements HomeService {
 
-  // setupDao : SetupDao = new SetupDaoImpl();
+  productDao : ProductDao = new ProductDaoImpl();
+  homeDao : HomeDao = new HomeDaoImpl();
 
-  // async initialSetup(): Promise<CommonResponse> {
-  //   let cr = new CommonResponse();
-  //   try {
+  async getHomeObj(): Promise<CommonResponse> {
+    let cr = new CommonResponse();
+    try {
 
-  //     await AppDataSource.transaction(async (transaction) => {
+        let heroImgRepo = AppDataSource.getRepository(HeroImageEntity);
+        let prodRepo = AppDataSource.getRepository(ProductEntity);
+        let typeRepo = AppDataSource.getRepository(TypeEntity);
+        let genderRepo = AppDataSource.getRepository(GenderCategoryEntity);
 
-  //       const countryRepo = transaction.getRepository(CountryEntity);
-  //       const districtRepo = transaction.getRepository(DistrictEntity);
-  //       const wsRepo = transaction.getRepository(WeatherStationEntity);
+        let resHomeObj : HomeResDto = new HomeResDto();
+      
+        //heroImg
+        let heroImg: HeroImageEntity = await this.homeDao.getHeroImg(heroImgRepo);
 
-  //       const country : CountryEntity = new CountryEntity();
-  //       country.id = 1;
-  //       country.countryName = "Sri Lanka";
+        if(heroImg){
+          resHomeObj.setHeroImg(heroImg.url);
+        }else{
+          resHomeObj.setHeroImg("https://i.postimg.cc/13H30ZqZ/temp-Imagep-Lv4-VY.avif");
+        }
 
-  //       let savedCountry : CountryEntity = await this.setupDao.saveCountry(country, countryRepo);
+        //products
+        let products: ProductEntity[] = await this.productDao.searchProducts(null, prodRepo);
 
-  //       const weatherStations = [
-  //           { id: 1, name: 'Colombo', code: 'lk-co' },
-  //           { id: 2, name: 'Gampaha', code: 'lk-gq'},
-  //           { id: 3, name: 'Kalutara', code: 'lk-kt' },
-  //           { id: 4, name: 'Kandy', code: 'lk-ky' },
-  //           { id: 5, name: 'Matale', code: 'lk-mt' },
-  //           { id: 6, name: 'Nuwara Eliya', code: 'lk-nw' },
-  //           { id: 7, name: 'Galle', code: 'lk-gl' },
-  //           { id: 8, name: 'Matara', code: 'lk-mh' },
-  //           { id: 9, name: 'Hambantota', code: 'lk-hb' },
-  //           { id: 10, name: 'Jaffna', code: 'lk-ja' },
-  //           { id: 11, name: 'Kilinochchi', code: 'lk-kl' },
-  //           { id: 12, name: 'Mannar', code: 'lk-mb' },
-  //           { id: 13, name: 'Vavuniya', code: 'lk-va' },
-  //           { id: 14, name: 'Mullaitivu', code: 'lk-mp' },
-  //           { id: 15, name: 'Batticaloa', code: 'lk-bc' },
-  //           { id: 16, name: 'Ampara', code: 'lk-ap' },
-  //           { id: 17, name: 'Trincomalee', code: 'lk-tc' },
-  //           { id: 18, name: 'Kurunegala', code: 'lk-kg' },
-  //           { id: 19, name: 'Puttalam', code: 'lk-px' },
-  //           { id: 20, name: 'Anuradhapura', code: 'lk-ad' },
-  //           { id: 21, name: 'Polonnaruwa', code: 'lk-pr' },
-  //           { id: 22, name: 'Badulla', code: 'lk-bd' },
-  //           { id: 23, name: 'Monaragala', code: 'lk-mj' },
-  //           { id: 24, name: 'Ratnapura', code: 'lk-rn' },
-  //           { id: 25, name: 'Kegalle', code: 'lk-ke' }
-  //         ];
+        let prods: ProductDto[] = new Array();
 
-  //         for (const weatherStation of weatherStations) {
+        for (const product of products) {
+            let prod: ProductDto = new ProductDto();
+            prod.fillViaObject(product);
 
-  //           const district : DistrictEntity = new DistrictEntity();
-  //           district.id = weatherStation.id;
-  //           district.districtName = weatherStation.name;
-  //           district.country = savedCountry;
-  //           district.districtCode = weatherStation.code;
+            prods.push(prod);
+        }
 
-  //           let savedDistrict : DistrictEntity = await this.setupDao.saveDistrict(district, districtRepo);
+        resHomeObj.setProducts(prods);
 
-  //           const ws : WeatherStationEntity = new WeatherStationEntity();
-  //           ws.id = weatherStation.id;
-  //           ws.weatherStationName = weatherStation.name;
-  //           ws.district = savedDistrict;
+        //categories
+        let categories: TypeEntity[] = await this.homeDao.getCategories(typeRepo);
 
-  //           await this.setupDao.saveWeatherStation(ws, wsRepo);
-            
-  //         }
+        let cats: TypeDto[] = new Array();
 
-  //     });
-  //       cr.setExtra("Inital Setup Success");
-  //       cr.setStatus(true);
-  //   } catch (error) {
-  //       cr.setStatus(false);
-  //       cr.setExtra(error);
-  //       throw error;
-  //   }
-  //   return cr;
-  // }
+        for (const category of categories) {
+            let cat: TypeDto = new TypeDto();
+            cat.fillViaObject(category);
+
+            cats.push(cat);
+        }
+
+        resHomeObj.setCategories(cats);
+
+        //genders
+        let genders: GenderCategoryEntity[] = await this.homeDao.getGenders(genderRepo);
+
+        let gens: GenderDto[] = new Array();
+
+        for (const gender of genders) {
+            let gen: GenderDto = new GenderDto();
+            gen.fillViaObject(gender);
+
+            gens.push(gen);
+        }
+
+        resHomeObj.setGenderCategories(gens);
+     
+        cr.setStatus(true);
+        cr.setExtra(resHomeObj);
+    } catch (error) {
+        cr.setStatus(false);
+        cr.setExtra(error);
+        throw error;
+    }
+    return cr;
+  }
 }

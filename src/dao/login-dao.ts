@@ -1,10 +1,9 @@
 // import { Repository } from "typeorm";
-// import { CountryEntity } from "../entity/country-entity";
-// import { DistrictEntity } from "../entity/district-entity";
-// import { WeatherStationEntity } from "../entity/weather-station-entity";
+
+import { Repository } from "typeorm";
+import { UserEntity } from "../entity/user-entity";
+import { LoginReqDto } from "../dto/login/login-req-dto";
 
 export default interface LoginDao {
-    // saveCountry(country:CountryEntity,countryRepo:Repository<CountryEntity>):Promise<CountryEntity>;
-    // saveDistrict(district:DistrictEntity,districtRepo:Repository<DistrictEntity>):Promise<DistrictEntity>;
-    // saveWeatherStation(weatherStation:WeatherStationEntity,wsRepo:Repository<WeatherStationEntity>):Promise<WeatherStationEntity>;
+    checkUser(loginReqDto: LoginReqDto,userRepo:Repository<UserEntity>):Promise<UserEntity>;
 }

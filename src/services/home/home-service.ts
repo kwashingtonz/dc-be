@@ -1,6 +1,6 @@
-// import { CommonResponse } from "../../common/dto/common-response";
+import { CommonResponse } from "../../common/dto/common-response";
 
 export interface HomeService{
-    // initialSetup(): Promise<CommonResponse>;
+    getHomeObj(): Promise<CommonResponse>;
   }
   

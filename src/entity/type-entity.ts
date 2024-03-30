@@ -6,4 +6,7 @@ export class TypeEntity {
     @PrimaryGeneratedColumn()
     id: number
 
+    @Column({ name: "name" })
+    name: string
+
 }

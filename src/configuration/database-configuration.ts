@@ -1,5 +1,11 @@
 import { DataSource } from "typeorm";
 import { EnvironmentConfiguration } from "./environment-configuration";
+import { GenderCategoryEntity } from "../entity/gender-category-entity";
+import { TypeEntity } from "../entity/type-entity";
+import { ProductEntity } from "../entity/product-entity";
+import { ImageEntity } from "../entity/image-entity";
+import { UserEntity } from "../entity/user-entity";
+import { HeroImageEntity } from "../entity/hero-image-entity";
 
 const environmentConfiguration = new EnvironmentConfiguration();
 const appConfig = environmentConfiguration.readAppConfiguration();
@@ -21,7 +27,12 @@ export const AppDataSource = new DataSource({
   // url: replaceWithPassword(appConfig.getUrl()),
   synchronize: true,
   entities: [
-    
+    GenderCategoryEntity,
+    TypeEntity,
+    ProductEntity,
+    ImageEntity,
+    UserEntity,
+    HeroImageEntity
   ],
   logging: false,
   subscribers: [

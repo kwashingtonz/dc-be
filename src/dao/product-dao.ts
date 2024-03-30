@@ -1,10 +1,7 @@
-// import { Repository } from "typeorm";
-// import { CountryEntity } from "../entity/country-entity";
-// import { DistrictEntity } from "../entity/district-entity";
-// import { WeatherStationEntity } from "../entity/weather-station-entity";
+import { Repository } from "typeorm";
+import { ProductEntity } from "../entity/product-entity";
+import { ProductReqDto } from "../dto/product/product-req-dto";
 
 export default interface ProductDao {
-    // saveCountry(country:CountryEntity,countryRepo:Repository<CountryEntity>):Promise<CountryEntity>;
-    // saveDistrict(district:DistrictEntity,districtRepo:Repository<DistrictEntity>):Promise<DistrictEntity>;
-    // saveWeatherStation(weatherStation:WeatherStationEntity,wsRepo:Repository<WeatherStationEntity>):Promise<WeatherStationEntity>;
+    searchProducts(productsReq: ProductReqDto,prodRepo:Repository<ProductEntity>):Promise<ProductEntity[]>;
 }

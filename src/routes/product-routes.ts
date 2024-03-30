@@ -87,6 +87,6 @@ const router: Router = express.Router();
  *              400:
  *                  description: Not Available
 */
-router.post("/loadProducts",auth, productController.loadProducts);
+router.post("/loadProducts", productController.loadProducts);
 
 module.exports = router;

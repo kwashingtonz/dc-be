@@ -16,7 +16,7 @@ try {
 
     cr = await loginService.checkLogin(reqDto);
 
-    res.send(cr.isStatus());
+    res.send(cr);
   } catch (error) {
     cr.setStatus(false);
     cr.setExtra(error);

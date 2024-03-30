@@ -3,13 +3,13 @@ export class ProductReqDto {
     private searchText: string;
     private gender: number;
     private type: number;
-    private sortType: string;
+    private sortType: number;
 
     public fillViaRequest(obj: any){
         this.searchText = obj.searchText;
         this.gender = parseInt(obj.gender);
-        this.type = parseInt(obj.typ);
-        this.sortType = obj.sortType;
+        this.type = parseInt(obj.type);
+        this.sortType = parseInt(obj.sortType);
     }
 
     public getSearchText(): string {
@@ -36,11 +36,11 @@ export class ProductReqDto {
         this.type = type;
     }
 
-    public getSortType(): string {
+    public getSortType(): number {
         return this.sortType;
     }
 
-    public setSortType(sortType: string): void {
+    public setSortType(sortType: number): void {
         this.sortType = sortType;
     }
 

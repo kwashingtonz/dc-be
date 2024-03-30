@@ -61,6 +61,6 @@ const router: Router = express.Router();
  *              400:
  *                  description: Not Available
 */
-router.get("/loadHomeObj",auth, homeController.loadHomeObj);
+router.get("/loadHomeObj", homeController.loadHomeObj);
 
 module.exports = router;

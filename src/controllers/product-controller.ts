@@ -23,7 +23,7 @@ try {
     let products = [prod1,prod2,prod3,prod4];
     
     if(reqDto.getSearchText() !== ""){
-      products = products.filter(prd => prd.title.includes(reqDto.getSearchText()));
+      products = products.filter(prd => prd.title.toLowerCase().includes(reqDto.getSearchText().toLowerCase()));
     }
 
     if(reqDto.getGender() !== 0){
@@ -34,15 +34,16 @@ try {
       products = products.filter(prd => prd.category === reqDto.getType())
     }
 
-    if(reqDto.getSortType() === "low"){
+    if(reqDto.getSortType() === 0){
+      products.sort((a,b) => a.price - b.price);
+    }else{
       products.sort((a,b) => b.price - a.price);
     }
 
-    if(reqDto.getSortType() === "high"){
-      products.sort((a,b) => a.price - b.price);
-    }
+    cr.setStatus(true);
+    cr.setExtra(products);
 
-    res.send(products);
+    res.send(cr);
 
   } catch (error) {
     cr.setStatus(false);

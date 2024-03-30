@@ -9,7 +9,7 @@ export class LoginServiceImpl implements LoginService {
     let cr = new CommonResponse();
     try {
 
-        if((loginReqDto.getUsername() === "abc@xyz.com") && (loginReqDto.getPassword() === "123")){
+        if((loginReqDto.getUsername() === "abc") && (loginReqDto.getPassword() === "123")){
           cr.setExtra("Success");
           cr.setStatus(true);
         } else {
